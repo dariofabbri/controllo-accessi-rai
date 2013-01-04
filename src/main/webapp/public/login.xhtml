@@ -1,0 +1,54 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<f:metadata>
+	    <f:viewAction action="#{loginInfoBean.cleanLoginInfo}"/>
+	</f:metadata>
+
+	<ui:composition template="/templates/main.xhtml">
+		
+		<ui:define name="container">
+			<h:form>
+				<p:panel id="loginPanel"
+					header="Login panel" 
+					toggleable="true" 
+					toggleSpeed="500"
+					style="width: 500px; margin-left: auto; margin-right: auto; margin-top: 20px;">
+					
+					<p:focus context="loginPanel"/>
+					
+					<p:messages 
+						globalOnly="true" 
+						showSummary="true"
+						showDetail="true" 
+						autoUpdate="true" 
+						closable="true"/>
+					
+  					<h:panelGrid columns="2">
+
+  						<h:outputText value="Username: " />  
+			            <p:inputText value="#{loginInfoBean.username}"/>
+  					
+  						<h:outputText value="Password: " />  
+			            <p:password	value="#{loginInfoBean.password}" /> 
+  					</h:panelGrid>
+  					
+  					<p:commandButton 
+  						value="Do login" 
+  						action="#{loginInfoBean.doLogin}" 
+  						style="margin-left:150px; margin-top:20px;"/>  
+            
+			    </p:panel> 
+			    <p:draggable 
+			    	for="loginPanel" 
+			    	handle=".ui-panel-titlebar"
+			    	opacity="0.3"/>
+			</h:form>
+		</ui:define>
+		
+	</ui:composition>
+
+</html>

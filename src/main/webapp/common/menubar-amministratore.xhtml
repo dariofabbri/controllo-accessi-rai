@@ -1,0 +1,40 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<h:form>
+	
+		<p:menubar>
+		
+	        <p:submenu label="File" icon="ui-icon-person">
+                <p:menuitem value="Cambia utente" action="#{loginInfoBean.doLogoff}"/>
+                <p:menuitem value="Cambia password" url="#" />
+	        </p:submenu>
+
+	        <p:submenu label="Accessi" icon="ui-icon-transfer-e-w">
+                <p:menuitem value="Accessi giornalieri" url="#" />
+                <p:menuitem value="Inserisci accessi" url="#" />
+                <p:menuitem value="Registra accessi" url="#" />
+	        </p:submenu>
+
+	        <p:submenu label="Report" icon="ui-icon-document">
+                <p:menuitem value="Utenti" url="#" />
+                <p:menuitem value="Accessi autorizzati lungo termine" url="#" />
+                <p:menuitem value="Accessi mezzi di servizio" url="#" />
+                <p:menuitem value="Accessi autisti" url="#" />
+	        </p:submenu>
+
+	        <p:submenu label="Impostazioni" icon="ui-icon-wrench">
+                <p:menuitem value="Utenti" url="#" />
+                <p:menuitem value="Mezzi di servizio" url="#" />
+                <p:menuitem value="Autisti" url="#" />
+                <p:menuitem value="Autorizzati lungo termine" url="#" />
+	        </p:submenu>
+	        
+	    </p:menubar>
+	
+	</h:form>
+	
+</html>

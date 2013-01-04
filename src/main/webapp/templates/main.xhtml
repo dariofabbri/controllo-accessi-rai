@@ -1,0 +1,32 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+	
+	</h:head>
+	
+	<h:body>
+	   	<c:choose>
+	   		<c:when test="${loginInfoBean.utente.tipoAccount == 'Amministratore'}">
+	   			<ui:include src="/common/menubar-amministratore.xhtml"/>
+	   		</c:when>
+	   		<c:when test="${loginInfoBean.utente.tipoAccount == 'Capoturno'}">
+	   			<ui:include src="/common/menubar-capoturno.xhtml"/>
+	   		</c:when>
+	   		<c:when test="${loginInfoBean.utente.tipoAccount == 'Utente'}">
+	   			<ui:include src="/common/menubar-utente.xhtml"/>
+	   		</c:when>
+	   		<c:otherwise>
+	   			<ui:include src="/common/menubar-empty.xhtml"/>
+	   		</c:otherwise>
+	   	</c:choose>
+
+       <ui:insert name="container">The main page content.</ui:insert>
+	                        
+	</h:body>
+
+</html>

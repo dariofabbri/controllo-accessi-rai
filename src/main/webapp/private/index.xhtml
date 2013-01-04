@@ -1,0 +1,23 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="/templates/main.xhtml">
+		
+		<ui:define name="menubar">
+			I will be the menubar, someday
+		</ui:define>
+		
+		<ui:define name="container">
+			The best is yet to come.
+		</ui:define>
+		
+		<ui:define name="footer">
+			Utente collegato: ${loginInfo.nome} ${loginInfo.cognome}
+		</ui:define>
+
+	</ui:composition>
+
+</html>
