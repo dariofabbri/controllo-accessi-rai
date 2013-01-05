@@ -5,28 +5,54 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 
-	<h:head>
-	
-	</h:head>
-	
-	<h:body>
-	   	<c:choose>
-	   		<c:when test="${loginInfoBean.utente.tipoAccount == 'Amministratore'}">
-	   			<ui:include src="/common/menubar-amministratore.xhtml"/>
-	   		</c:when>
-	   		<c:when test="${loginInfoBean.utente.tipoAccount == 'Capoturno'}">
-	   			<ui:include src="/common/menubar-capoturno.xhtml"/>
-	   		</c:when>
-	   		<c:when test="${loginInfoBean.utente.tipoAccount == 'Utente'}">
-	   			<ui:include src="/common/menubar-utente.xhtml"/>
-	   		</c:when>
-	   		<c:otherwise>
-	   			<ui:include src="/common/menubar-empty.xhtml"/>
-	   		</c:otherwise>
-	   	</c:choose>
+<h:head>
 
-       <ui:insert name="container">The main page content.</ui:insert>
-	                        
-	</h:body>
+</h:head>
+
+<h:body>
+
+	<c:choose>
+		<c:when test="${loginInfoBean.utente.tipoAccount == 'Amministratore'}">
+			<ui:include src="/common/menubar-amministratore.xhtml" />
+		</c:when>
+		<c:when test="${loginInfoBean.utente.tipoAccount == 'Capoturno'}">
+			<ui:include src="/common/menubar-capoturno.xhtml" />
+		</c:when>
+		<c:when test="${loginInfoBean.utente.tipoAccount == 'Utente'}">
+			<ui:include src="/common/menubar-utente.xhtml" />
+		</c:when>
+		<c:otherwise>
+			<ui:include src="/common/menubar-empty.xhtml" />
+		</c:otherwise>
+	</c:choose>
+
+
+	<ui:insert name="container">The main page content.</ui:insert>
+
+
+	<h:form>
+		
+		<p:ajaxStatus onerror="globalAjaxConfirmation.show();" />
+	
+		<p:dialog id="globalAjaxDialog"
+			header="Attenzione"
+			widgetVar="globalAjaxConfirmation"
+			showEffect="explode" hideEffect="bounce"
+			modal="true">
+	
+			<h:panelGrid columns="1" cellpadding="5">
+				  
+				<h:outputText value="La sessione è scaduta. Premere OK per tornare alla pagina di login." />
+				  
+				<p:commandButton id="confirm" value="OK"
+					onclick="window.location.reload()" />
+
+			</h:panelGrid>
+				
+		</p:dialog>
+		
+	</h:form>
+
+</h:body>
 
 </html>

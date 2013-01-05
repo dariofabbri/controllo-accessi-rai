@@ -81,8 +81,6 @@ public class LoginInfoBean implements Serializable {
  				break;
  			}
  		}
-//		UtenteService us = ServiceFactory.createUtenteService();
-//		utente = us.retrieveByUsername(username);
 
         return "/private/index?faces-redirect=true";
 	}

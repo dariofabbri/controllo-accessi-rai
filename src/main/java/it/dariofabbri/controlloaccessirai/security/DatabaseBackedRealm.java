@@ -1,4 +1,4 @@
-package it.dariofabbri.controlloaccessirai.security.shiro;
+package it.dariofabbri.controlloaccessirai.security;
 
 
 import it.dariofabbri.controlloaccessirai.model.Utente;

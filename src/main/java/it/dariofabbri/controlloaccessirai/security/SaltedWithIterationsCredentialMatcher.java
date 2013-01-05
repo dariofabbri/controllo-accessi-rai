@@ -1,4 +1,4 @@
-package it.dariofabbri.controlloaccessirai.security.shiro;
+package it.dariofabbri.controlloaccessirai.security;
 
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
