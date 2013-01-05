@@ -9,21 +9,37 @@ import it.dariofabbri.controlloaccessirai.service.utente.UtenteService;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
+import org.primefaces.context.RequestContext;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @ManagedBean
 @SessionScoped
 public class UserListBean implements Serializable {
 
+	private static final Logger logger = LoggerFactory.getLogger(UserListBean.class);
+
 	private static final long serialVersionUID = 1L;
 
 	private LazyDataModel<Utente> model;
 	private Utente selected;
+	
+	private String matricola;
+	private String username;
+	private String nome;
+	private String cognome;
+	private String tipoAccount;
+	private String password;
+	private String confirmPassword;
 	
 	public UserListBean() {
 		
@@ -65,6 +81,24 @@ public class UserListBean implements Serializable {
 			}
 		};
 	}
+	
+	public void doCreate() {
+		
+		logger.debug("Inside create event action listener!");
+
+		if((new Random()).nextInt(2) == 0) {
+			RequestContext.getCurrentInstance().addCallbackParam("ok", true);
+			return;
+		}
+		
+		FacesMessage message = new FacesMessage(
+				FacesMessage.SEVERITY_ERROR, 
+				"Antani", 
+				"Antani sbiricuda");
+		
+		FacesContext.getCurrentInstance().addMessage(null, message);
+		FacesContext.getCurrentInstance().addMessage("matricola", message);
+	}
 
 	public LazyDataModel<Utente> getModel() {
 		return model;
@@ -80,5 +114,61 @@ public class UserListBean implements Serializable {
 
 	public void setSelected(Utente selected) {
 		this.selected = selected;
+	}
+
+	public String getMatricola() {
+		return matricola;
+	}
+
+	public void setMatricola(String matricola) {
+		this.matricola = matricola;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getCognome() {
+		return cognome;
+	}
+
+	public void setCognome(String cognome) {
+		this.cognome = cognome;
+	}
+
+	public String getTipoAccount() {
+		return tipoAccount;
+	}
+
+	public void setTipoAccount(String tipoAccount) {
+		this.tipoAccount = tipoAccount;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
 	}
 }

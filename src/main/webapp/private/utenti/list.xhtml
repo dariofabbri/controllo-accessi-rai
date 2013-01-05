@@ -4,55 +4,88 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 
-	<ui:composition template="/templates/main.xhtml">
+<ui:composition template="/templates/main.xhtml">
+
+	<ui:define name="container">
+
+		<h:form id="form">
+
+			<p:dataTable var="utente" value="#{userListBean.model}"
+				paginator="true" paginatorPosition="bottom" rows="10"
+				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+				rowsPerPageTemplate="5,10,50" selectionMode="single"
+				selection="#{userListBean.selected}" id="utentiTable" lazy="true">
+
+				<f:facet name="header">  
+			    	Lista degli utenti  
+			    </f:facet>
+
+				<p:column headerText="Matricola" sortBy="#{utente.matricola}"
+					filterBy="#{utente.matricola}">
+					<h:outputText value="#{utente.matricola}" />
+				</p:column>
+
+				<p:column headerText="Username" sortBy="#{utente.username}"
+					filterBy="#{utente.username}">
+					<h:outputText value="#{utente.username}" />
+				</p:column>
+
+				<p:column headerText="Cognome" sortBy="#{utente.cognome}"
+					filterBy="#{utente.cognome}">
+					<h:outputText value="#{utente.cognome}" />
+				</p:column>
+
+				<p:column headerText="Nome" sortBy="#{utente.nome}"
+					filterBy="#{utente.nome}">
+					<h:outputText value="#{utente.nome}" />
+				</p:column>
+
+				<p:column headerText="Tipo account" sortBy="#{utente.tipoAccount}"
+					filterBy="#{utente.tipoAccount}">
+					<h:outputText value="#{utente.tipoAccount}" />
+				</p:column>
+
+			</p:dataTable>
+
+			<p:commandButton id="nuovoUtenteButton" value="Nuovo utente"
+				onclick="newDialog.show();"
+				icon="ui-icon-star" />
+
+		</h:form>
+
+
+		<p:dialog id="dialog" header="Nuovo utente" widgetVar="newDialog" modal="true"
+			showEffect="slide" hideEffect="slide"> 
+
+			<h:form>
+			
+				<p:messages globalOnly="true" autoUpdate="true" showDetail="true"/>
+			
+				<h:panelGrid columns="3" cellpadding="5" id="wrapper">
+				
+					<h:outputLabel for="matricola" value="Matricola:" />
+					<p:inputText value="#{userListBean.matricola}" id="matricola"
+						validator="matricolaValidator" label="matricola" 
+						required="true" requiredMessage="Il campo è obbligatorio"/>
+					<p:message for="matricola" showSummary="true" showDetail="false"/>
+
+					<f:facet name="footer">
+						<p:commandButton value="Crea"
+							actionListener="#{userListBean.doCreate}" update="wrapper" 
+							oncomplete="if(args.ok) {newDialog.hide()}"/> 
+
+						<p:commandButton value="Annulla"
+							oncomplete="newDialog.hide();" />
+					</f:facet>
+					
+				</h:panelGrid>
+				
+			</h:form>
+	
+		</p:dialog>
 		
-		<ui:define name="container">
-		
-			<h:form id="form">  
-			  
-			    <p:dataTable 
-			    	var="utente" 
-			    	value="#{userListBean.model}" 
-			    	paginator="true" 
-			    	paginatorPosition="bottom"
-			    	rows="10"  
-			        paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"  
-			        rowsPerPageTemplate="5,10,50" 
-			        selectionMode="single" 
-			        selection="#{userListBean.selected}" 
-			        id="utentiTable" 
-			        lazy="true">  
+	</ui:define>
 
-					<f:facet name="header">  
-			            Lista degli utenti  
-			        </f:facet>  			  
-
-			        <p:column headerText="Matricola" sortBy="#{utente.matricola}" filterBy="#{utente.matricola}">  
-			            <h:outputText value="#{utente.matricola}" />  
-			        </p:column>  
-
-			        <p:column headerText="Username" sortBy="#{utente.username}" filterBy="#{utente.username}">  
-			            <h:outputText value="#{utente.username}" />  
-			        </p:column>  
-			  
-			        <p:column headerText="Cognome" sortBy="#{utente.cognome}" filterBy="#{utente.cognome}">  
-			            <h:outputText value="#{utente.cognome}" />  
-			        </p:column>  
-			  
-			        <p:column headerText="Nome" sortBy="#{utente.nome}" filterBy="#{utente.nome}">  
-			            <h:outputText value="#{utente.nome}" />  
-			        </p:column>  
-			  
-			        <p:column headerText="Tipo account" sortBy="#{utente.tipoAccount}" filterBy="#{utente.tipoAccount}">  
-			            <h:outputText value="#{utente.tipoAccount}" />  
-			        </p:column>  
-
-			    </p:dataTable>  
-			  
-			</h:form>  
-
-		</ui:define>
-		
-	</ui:composition>
+</ui:composition>
 
 </html>
