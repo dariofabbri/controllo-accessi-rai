@@ -16,6 +16,8 @@ public class QueryUtenteByMatricolaUsernameNomeCognomeTipoAccount extends Query<
 	public QueryUtenteByMatricolaUsernameNomeCognomeTipoAccount(Session session) {
 		
 		super(session);
+		
+		sortCriteria = "matricola";
 	}
 
 	public Integer getMatricola() {
@@ -112,7 +114,12 @@ public class QueryUtenteByMatricolaUsernameNomeCognomeTipoAccount extends Query<
 		if(tipoAccount != null)
 			hql += "and upper(ute.tipoAccount) like :tipoAccount ";
 
-		hql += "order by ute.matricola ";
+		if(sortCriteria != null) {
+			hql += "order by ute." + sortCriteria + " ";
+			
+			if(sortDirection != null)
+				hql += sortDirection.toHql();
+		} 
 		
 		return hql;
 	}

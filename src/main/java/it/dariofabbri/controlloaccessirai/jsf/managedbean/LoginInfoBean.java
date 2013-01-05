@@ -30,7 +30,7 @@ public class LoginInfoBean implements Serializable {
 	private Utente utente;
 
 	public String cleanLoginInfo() {
-	
+		
 		logger.debug("Cleaning up login info.");
 		this.reset();
 		return null;

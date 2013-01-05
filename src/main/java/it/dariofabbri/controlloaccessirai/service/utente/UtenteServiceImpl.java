@@ -1,9 +1,12 @@
 package it.dariofabbri.controlloaccessirai.service.utente;
 
+import java.util.Map;
+
 import it.dariofabbri.controlloaccessirai.model.Utente;
 import it.dariofabbri.controlloaccessirai.service.AbstractService;
 import it.dariofabbri.controlloaccessirai.service.NotFoundException;
 import it.dariofabbri.controlloaccessirai.service.QueryResult;
+import it.dariofabbri.controlloaccessirai.service.SortDirection;
 
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -36,6 +39,40 @@ public class UtenteServiceImpl extends AbstractService implements UtenteService 
 		return q.query();
 	}
 
+	@Override
+	public QueryResult<Utente> list(
+			int first, 
+			int pageSize,
+			String sortCriteria, 
+			SortDirection sortDirection,
+			Map<String, String> filters) {
+
+		QueryUtenteByMatricolaUsernameNomeCognomeTipoAccount q = new QueryUtenteByMatricolaUsernameNomeCognomeTipoAccount(session);
+
+		Integer matricola = null;
+		if(filters.get("matricola") != null)
+			matricola = Integer.decode(filters.get("matricola"));
+		
+		String username = filters.get("username");
+		String nome = filters.get("nome");
+		String cognome = filters.get("cognome");
+		String tipoAccount = filters.get("tipoAccount");
+		
+		q.setMatricola(matricola);
+		q.setUsername(username);
+		q.setNome(nome);
+		q.setCognome(cognome);
+		q.setTipoAccount(tipoAccount);
+		
+		q.setOffset(first);
+		q.setLimit(pageSize);
+		
+		q.setSortCriteria(sortCriteria);
+		q.setSortDirection(sortDirection);
+		
+		return q.query();
+	}
+	
 	@Override
 	public Utente retrieveByMatricola(Integer matricola) {
 

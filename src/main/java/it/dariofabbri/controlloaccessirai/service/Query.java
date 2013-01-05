@@ -8,6 +8,8 @@ public abstract class Query<T> {
 
 	private Integer offset;
 	private Integer limit;
+	protected String sortCriteria;
+	protected SortDirection sortDirection;
 
 	protected Session session;
 
@@ -130,6 +132,22 @@ public abstract class Query<T> {
 
 	public void setOffset(Integer offset) {
 		this.offset = offset;
+	}
+
+	public String getSortCriteria() {
+		return sortCriteria;
+	}
+
+	public void setSortCriteria(String sortCriteria) {
+		this.sortCriteria = sortCriteria;
+	}
+
+	public SortDirection getSortDirection() {
+		return sortDirection;
+	}
+
+	public void setSortDirection(SortDirection sortDirection) {
+		this.sortDirection = sortDirection;
 	}
 
 	protected abstract boolean checkQueryArguments();
