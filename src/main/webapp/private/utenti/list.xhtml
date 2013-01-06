@@ -9,6 +9,8 @@
 	<ui:define name="container">
 
 		<h:form id="form">
+
+			<h1 class="title ui-widget-header ui-corner-all">Gestione utenti</h1>
 			
 			<p:outputPanel id="buttons" style="display: block; margin-top: 2em; margin-bottom: 2em;">
 
@@ -44,6 +46,8 @@
 				selection="#{userListBean.selected}" id="utentiTable" lazy="true">
 
 				<p:ajax event="rowSelect" update=":form:buttons"/>
+
+				<p:ajax event="rowUnselect" update=":form:buttons"/>
         		
 				<f:facet name="header">  
 			    	Lista degli utenti  
@@ -80,122 +84,9 @@
 
 		</h:form>
 		
+		<ui:include src="delete.xhtml"/>		
 		
-		
-		<p:dialog 
-			header="Eliminazione utente" 
-			widgetVar="deleteDialog" 
-			modal="true"
-			showEffect="fade" 
-			hideEffect="fade"> 
-
-			<h:form>
-			
-				<p:messages globalOnly="true" autoUpdate="true" showDetail="true"/>
-
-				<h:panelGrid columns="1" cellpadding="5" id="wrapper">
-			
-					<h:outputText value="Si conferma l'eliminazione dell'utente selezionato?"/>
-					
-					<f:facet name="footer">
-						<p:commandButton value="Elimina"
-							actionListener="#{userListBean.doDelete}" 
-							oncomplete="if(args.ok) { window.location.reload(); }"/>
-		
-						<p:commandButton value="Annulla"
-							oncomplete="deleteDialog.hide();" />
-					</f:facet>
-				
-				</h:panelGrid>
-
-			</h:form>
-			
-		</p:dialog>
-		
-		
-		
-		<p:dialog 
-			header="Nuovo utente" 
-			widgetVar="createDialog" 
-			modal="true"
-			showEffect="fade" 
-			hideEffect="fade"> 
-
-			<h:form>
-			
-				<p:messages globalOnly="true" autoUpdate="true" showDetail="true"/>
-			
-				<h:panelGrid columns="3" cellpadding="5" id="wrapper">
-
-					<h:outputLabel for="matricola" value="Matricola:" />
-					<p:inputText value="#{userListBean.matricola}" id="matricola"
-						validator="matricolaValidator" 
-						required="true" requiredMessage="Il campo è obbligatorio"/>
-					<p:message for="matricola" showSummary="true" showDetail="false"/>
-
-					<h:outputLabel for="username" value="Username:" />
-					<p:inputText value="#{userListBean.username}" id="username"
-						required="true" requiredMessage="Il campo è obbligatorio"/>
-					<p:message for="username" showSummary="true" showDetail="false"/>
-
-					<h:outputLabel for="password" value="Password:" />
-					<p:password value="#{userListBean.password}" id="password"
-						required="true" requiredMessage="Il campo è obbligatorio"
-						feedback="true" inline="false"
-						redisplay="true"
-						promptLabel="Immettere la password"
-						weakLabel="Password debole" 
-						goodLabel="Password accettabile" 
-						strongLabel="Password forte" />
-					<p:message for="password" showSummary="true" showDetail="false"/>
-
-					<h:outputLabel for="confirmPassword" value="Conferma password:" />
-					<p:password value="#{userListBean.confirmPassword}" id="confirmPassword"
-						required="true" requiredMessage="Il campo è obbligatorio"
-						feedback="true" inline="false"
-						redisplay="true"
-						promptLabel="Immettere la password"
-						weakLabel="Password debole" 
-						goodLabel="Password accettabile" 
-						strongLabel="Password forte" />
-					<p:message for="password" showSummary="true" showDetail="false"/>
-
-					<h:outputLabel for="nome" value="Nome:" />
-					<p:inputText value="#{userListBean.nome}" id="nome"
-						required="true" requiredMessage="Il campo è obbligatorio"/>
-					<p:message for="nome" showSummary="true" showDetail="false"/>
-
-					<h:outputLabel for="cognome" value="Cognome:" />
-					<p:inputText value="#{userListBean.cognome}" id="cognome"
-						required="true" requiredMessage="Il campo è obbligatorio"/>
-					<p:message for="cognome" showSummary="true" showDetail="false"/>
-
-					<h:outputLabel for="tipoAccount" value="Tipo account:" />
-					<p:selectOneMenu value="#{userListBean.tipoAccount}" id="tipoAccount"
-						required="true" requiredMessage="Il campo è obbligatorio">
-			            <f:selectItem itemLabel="Selezionare un tipo" itemValue="" />  
-			            <f:selectItem itemLabel="Utente" itemValue="Utente" />  
-			            <f:selectItem itemLabel="Capoturno" itemValue="Capoturno" />  
-			            <f:selectItem itemLabel="Amministratore" itemValue="Amministratore" />  
-			        </p:selectOneMenu>  
-					<p:message for="tipoAccount" showSummary="true" showDetail="false"/>
-
-
-					<f:facet name="footer">
-						<p:commandButton value="Crea"
-							actionListener="#{userListBean.doCreate}" 
-							update="wrapper" 
-							oncomplete="if(args.ok) {window.location.reload()}"/>
- 
-						<p:commandButton value="Annulla"
-							oncomplete="createDialog.hide();" />
-					</f:facet>
-					
-				</h:panelGrid>
-				
-			</h:form>
-	
-		</p:dialog>
+		<ui:include src="create.xhtml"/>		
 		
 	</ui:define>
 

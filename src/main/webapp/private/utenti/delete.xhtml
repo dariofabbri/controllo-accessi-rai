@@ -1,0 +1,37 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<p:dialog 
+		header="Eliminazione utente" 
+		widgetVar="deleteDialog" 
+		modal="true"
+		showEffect="fade" 
+		hideEffect="fade"> 
+	
+		<h:form>
+		
+			<p:messages globalOnly="true" autoUpdate="true" showDetail="true"/>
+	
+			<h:panelGrid columns="1" cellpadding="5" id="wrapper">
+		
+				<h:outputText value="Si conferma l'eliminazione dell'utente selezionato?"/>
+				
+				<f:facet name="footer">
+					<p:commandButton value="Elimina"
+						actionListener="#{userListBean.doDelete}" 
+						oncomplete="if(args.ok) { window.location.reload(); }"/>
+	
+					<p:commandButton value="Annulla"
+						oncomplete="deleteDialog.hide();" />
+				</f:facet>
+			
+			</h:panelGrid>
+	
+		</h:form>
+		
+	</p:dialog>
+		
+</html>

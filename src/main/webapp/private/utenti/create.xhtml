@@ -1,0 +1,104 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:dialog 
+		header="Nuovo utente" 
+		widgetVar="createDialog" 
+		modal="true"
+		showEffect="fade" 
+		hideEffect="fade"> 
+
+		<h:form>
+		
+			<p:messages globalOnly="true" autoUpdate="true" showDetail="true"/>
+		
+			<h:panelGrid columns="4" cellpadding="5" id="wrapper">
+
+				<h:outputLabel for="matricola" value="Matricola:" />
+				<p:inputText value="#{userListBean.matricola}" id="matricola"
+					validator="matricolaValidator" 
+					required="true" requiredMessage="Il campo è obbligatorio"
+					style="width: 250px;"/>
+				<p:watermark for="matricola" value="Immettere il numero di matricola" />  
+				<p:message for="matricola" showSummary="true" showDetail="false"/>
+
+				<h:outputLabel for="username" value="Username:" />
+				<p:inputText value="#{userListBean.username}" id="username"
+					required="true" requiredMessage="Il campo è obbligatorio"
+					style="width: 250px;"/>
+				<p:watermark for="username" value="Immettere lo username" />
+				<p:message for="username" showSummary="true" showDetail="false"/>
+
+				<h:outputLabel for="password" value="Password:" />
+				<p:password value="#{userListBean.password}" id="password"
+					required="true" requiredMessage="Il campo è obbligatorio"
+					feedback="true" inline="false"
+					redisplay="true"
+					promptLabel="Immettere la password"
+					weakLabel="Password debole" 
+					goodLabel="Password accettabile" 
+					strongLabel="Password forte"
+					style="width: 250px;" />
+				<p:watermark for="password" value="Immettere la password" />
+				<p:message for="password" showSummary="true" showDetail="false"/>
+
+				<h:outputLabel for="confirmPassword" value="Conferma password:" />
+				<p:password value="#{userListBean.confirmPassword}" id="confirmPassword"
+					required="true" requiredMessage="Il campo è obbligatorio"
+					feedback="true" inline="false"
+					redisplay="true"
+					promptLabel="Immettere la password"
+					weakLabel="Password debole" 
+					goodLabel="Password accettabile" 
+					strongLabel="Password forte"
+					style="width: 250px;" />
+				<p:watermark for="confirmPassword" value="Confermare la password" />
+				<p:message for="password" showSummary="true" showDetail="false"/>
+
+				<h:outputLabel for="nome" value="Nome:" />
+				<p:inputText value="#{userListBean.nome}" id="nome"
+					required="true" requiredMessage="Il campo è obbligatorio"
+					style="width: 250px;"/>
+				<p:watermark for="nome" value="Immettere il nome" />
+				<p:message for="nome" showSummary="true" showDetail="false"/>
+
+				<h:outputLabel for="cognome" value="Cognome:" />
+				<p:inputText value="#{userListBean.cognome}" id="cognome"
+					required="true" requiredMessage="Il campo è obbligatorio"
+					style="width: 250px;"/>
+				<p:watermark for="cognome" value="Immettere il cognome" />
+				<p:message for="cognome" showSummary="true" showDetail="false"/>
+
+				<h:outputLabel for="tipoAccount" value="Tipo account:" />
+				<p:selectOneMenu value="#{userListBean.tipoAccount}" id="tipoAccount"
+					required="true" requiredMessage="Il campo è obbligatorio"
+					style="width: 250px;">
+		            <f:selectItem itemLabel="Selezionare un tipo" itemValue="" />  
+		            <f:selectItem itemLabel="Utente" itemValue="Utente" />  
+		            <f:selectItem itemLabel="Capoturno" itemValue="Capoturno" />  
+		            <f:selectItem itemLabel="Amministratore" itemValue="Amministratore" />  
+		        </p:selectOneMenu>  
+				<p:watermark for="tipoAccount" value="Selezionare un valore" />
+				<p:message for="tipoAccount" showSummary="true" showDetail="false"/>
+
+
+				<f:facet name="footer">
+					<p:commandButton value="Crea"
+						actionListener="#{userListBean.doCreate}" 
+						update="wrapper" 
+						oncomplete="if(args.ok) {window.location.reload()}"/>
+
+					<p:commandButton value="Annulla"
+						oncomplete="createDialog.hide();" />
+				</f:facet>
+				
+			</h:panelGrid>
+			
+		</h:form>
+
+	</p:dialog>
+
+</html>
