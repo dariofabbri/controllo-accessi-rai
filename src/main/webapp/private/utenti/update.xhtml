@@ -5,75 +5,50 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<p:dialog 
-		header="Nuovo utente" 
-		widgetVar="createDialog" 
+		header="Modifica utente" 
+		widgetVar="updateDialog" 
 		modal="true"
 		showEffect="fade" 
 		hideEffect="fade"> 
 
-		<h:form id="createForm">
+		<h:form id="updateForm">
 		
 			<p:messages globalOnly="true" autoUpdate="true" showDetail="true"/>
 		
 			<h:panelGrid columns="4" cellpadding="5" id="wrapper">
 
 				<p:outputLabel for="matricola" value="Matricola:" />
-				<p:inputText value="#{userManagement.matricola}" id="matricola"
+				<p:inputText value="#{userManagement.selected.matricola}" id="matricola"
 					validator="matricolaValidator" 
 					required="true" requiredMessage="Il campo è obbligatorio"
+					readonly="true"
 					style="width: 250px;"/>
 				<p:watermark for="matricola" value="Immettere il numero di matricola" />  
 				<p:message for="matricola" showSummary="true" showDetail="false"/>
 
 				<p:outputLabel for="username" value="Username:" />
-				<p:inputText value="#{userManagement.username}" id="username"
+				<p:inputText value="#{userManagement.selected.username}" id="username"
 					required="true" requiredMessage="Il campo è obbligatorio"
 					style="width: 250px;"/>
 				<p:watermark for="username" value="Immettere lo username" />
 				<p:message for="username" showSummary="true" showDetail="false"/>
 
-				<p:outputLabel for="password" value="Password:" />
-				<p:password value="#{userManagement.password}" id="password"
-					required="true" requiredMessage="Il campo è obbligatorio"
-					feedback="true" inline="false"
-					redisplay="true"
-					promptLabel="Immettere la password"
-					weakLabel="Password debole" 
-					goodLabel="Password accettabile" 
-					strongLabel="Password forte"
-					style="width: 250px;" />
-				<p:watermark for="password" value="Immettere la password" />
-				<p:message for="password" showSummary="true" showDetail="false"/>
-
-				<p:outputLabel for="confirmPassword" value="Conferma password:" />
-				<p:password value="#{userManagement.confirmPassword}" id="confirmPassword"
-					required="true" requiredMessage="Il campo è obbligatorio"
-					feedback="true" inline="false"
-					redisplay="true"
-					promptLabel="Immettere la password"
-					weakLabel="Password debole" 
-					goodLabel="Password accettabile" 
-					strongLabel="Password forte"
-					style="width: 250px;" />
-				<p:watermark for="confirmPassword" value="Confermare la password" />
-				<p:message for="password" showSummary="true" showDetail="false"/>
-
 				<p:outputLabel for="nome" value="Nome:" />
-				<p:inputText value="#{userManagement.nome}" id="nome"
+				<p:inputText value="#{userManagement.selected.nome}" id="nome"
 					required="true" requiredMessage="Il campo è obbligatorio"
 					style="width: 250px;"/>
 				<p:watermark for="nome" value="Immettere il nome" />
 				<p:message for="nome" showSummary="true" showDetail="false"/>
 
 				<p:outputLabel for="cognome" value="Cognome:" />
-				<p:inputText value="#{userManagement.cognome}" id="cognome"
+				<p:inputText value="#{userManagement.selected.cognome}" id="cognome"
 					required="true" requiredMessage="Il campo è obbligatorio"
 					style="width: 250px;"/>
 				<p:watermark for="cognome" value="Immettere il cognome" />
 				<p:message for="cognome" showSummary="true" showDetail="false"/>
 
 				<p:outputLabel for="tipoAccount" value="Tipo account:" />
-				<p:selectOneMenu value="#{userManagement.tipoAccount}" id="tipoAccount"
+				<p:selectOneMenu value="#{userManagement.selected.tipoAccount}" id="tipoAccount"
 					required="true" requiredMessage="Il campo è obbligatorio"
 					style="width: 250px;">
 		            <f:selectItem itemLabel="Selezionare un tipo" itemValue="" />  
@@ -86,13 +61,12 @@
 
 
 				<f:facet name="footer">
-					<p:commandButton value="Crea"
-						actionListener="#{userManagement.doCreate}" 
-						update="wrapper" 
+					<p:commandButton value="Aggiorna"
+						actionListener="#{userManagement.doUpdate}"
 						oncomplete="if(args.ok) {window.location.reload()}"/>
 
 					<p:commandButton value="Annulla"
-						oncomplete="createDialog.hide();" />
+						oncomplete="updateDialog.hide();" />
 				</f:facet>
 				
 			</h:panelGrid>

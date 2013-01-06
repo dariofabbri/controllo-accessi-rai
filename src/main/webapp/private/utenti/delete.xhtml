@@ -11,7 +11,7 @@
 		showEffect="fade" 
 		hideEffect="fade"> 
 	
-		<h:form>
+		<h:form id="deleteForm">
 		
 			<p:messages globalOnly="true" autoUpdate="true" showDetail="true"/>
 	
@@ -21,7 +21,7 @@
 				
 				<f:facet name="footer">
 					<p:commandButton value="Elimina"
-						actionListener="#{userListBean.doDelete}" 
+						actionListener="#{userManagement.doDelete}" 
 						oncomplete="if(args.ok) { window.location.reload(); }"/>
 	
 					<p:commandButton value="Annulla"

@@ -14,27 +14,33 @@
 			
 			<p:outputPanel id="buttons" style="display: block; margin-top: 2em; margin-bottom: 2em;">
 
-				<p:commandButton id="createUtenteButton" 
+				<p:commandButton 
 					value="Nuovo utente"
 					onclick="createDialog.show();"
 					icon="ui-icon-star" />
 
-				<p:commandButton id="deleteUtenteButton" 
+				<p:commandButton 
 					value="Elimina utente selezionato"
-					disabled="#{userListBean.selected == null}"
+					disabled="#{userManagement.selected == null}"
 					onclick="deleteDialog.show();"
 					icon="ui-icon-trash" />
 
-				<p:commandButton id="updateUtenteButton" 
+				<p:commandButton 
 					value="Modifica utente selezionato"
-					disabled="#{userListBean.selected == null}"
+					disabled="#{userManagement.selected == null}"
 					onclick="updateDialog.show();"
+					icon="ui-icon-pencil" />
+
+				<p:commandButton 
+					value="Cambia password utente selezionato"
+					disabled="#{userManagement.selected == null}"
+					onclick="changePasswordDialog.show();"
 					icon="ui-icon-pencil" />
 
 			</p:outputPanel>
 
 			<p:dataTable var="utente" 
-				value="#{userListBean.model}"
+				value="#{userManagement.model}"
 				paginator="true" 
 				paginatorPosition="bottom" rows="10"
 				paginatorTemplate="{CurrentPageReport} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
@@ -43,13 +49,13 @@
 				pageLinks="10"
 				emptyMessage="Nessun record trovato" 
 				selectionMode="single"
-				selection="#{userListBean.selected}" id="utentiTable" lazy="true">
+				selection="#{userManagement.selected}" id="utentiTable" lazy="true">
 
-				<p:ajax event="rowSelect" update=":form:buttons"/>
+				<p:ajax event="rowSelect" update=":form:buttons,:updateForm:wrapper,:changePasswordForm:wrapper"/>
 
-				<p:ajax event="rowUnselect" update=":form:buttons"/>
+				<p:ajax event="rowUnselect" update=":form:buttons,:updateForm:wrapper,:changePasswordForm:wrapper"/>
         		
-				<f:facet name="header">  
+				<f:facet name="header">
 			    	Lista degli utenti  
 			    </f:facet>
 
@@ -84,9 +90,13 @@
 
 		</h:form>
 		
-		<ui:include src="delete.xhtml"/>		
+		<ui:include src="create.xhtml"/>
 		
-		<ui:include src="create.xhtml"/>		
+		<ui:include src="update.xhtml"/>		
+		
+		<ui:include src="delete.xhtml"/>
+		
+		<ui:include src="password.xhtml"/>
 		
 	</ui:define>
 

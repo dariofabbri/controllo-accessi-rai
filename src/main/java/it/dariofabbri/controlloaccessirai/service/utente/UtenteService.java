@@ -30,7 +30,22 @@ public interface UtenteService extends Service {
 
 	void deleteByMatricola(Integer matricola);
 
-	Utente create(Integer matricola, String username, String password, String nome, String cognome, String tipoAccount);
+	Utente create(
+			Integer matricola, 
+			String username, 
+			String password, 
+			String nome, 
+			String cognome, 
+			String tipoAccount);
 
-	Utente update(Integer id, String username, String password, String nome, String cognome, String tipoAccount);
+	Utente update(
+			Integer matricola, 
+			String username, 
+			String nome, 
+			String cognome, 
+			String tipoAccount);
+
+	Utente changePassword(
+			Integer matricola, 
+			String password); 
 }

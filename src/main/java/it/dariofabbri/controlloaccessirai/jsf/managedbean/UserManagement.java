@@ -23,9 +23,9 @@ import org.slf4j.LoggerFactory;
 
 @ManagedBean
 @ViewScoped
-public class UserListBean implements Serializable {
+public class UserManagement implements Serializable {
 
-	private static final Logger logger = LoggerFactory.getLogger(UserListBean.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserManagement.class);
 
 	private static final long serialVersionUID = 1L;
 
@@ -40,7 +40,7 @@ public class UserListBean implements Serializable {
 	private String password;
 	private String confirmPassword;
 	
-	public UserListBean() {
+	public UserManagement() {
 		
 		model = new LazyDataModel<Utente>() {
 
@@ -53,6 +53,8 @@ public class UserListBean implements Serializable {
 					String sortField,
 					SortOrder sortOrder, Map<String, String> filters) {
 
+				logger.debug("Fetching data model.");
+				
 				UtenteService us = ServiceFactory.createUtenteService();
 				QueryResult<Utente> result = us.list(
 						first, 
@@ -68,6 +70,7 @@ public class UserListBean implements Serializable {
 			
 			@Override
 			public Object getRowKey(Utente utente) {
+				
 				return utente == null ? null : utente.getMatricola();
 			}
 
@@ -81,11 +84,25 @@ public class UserListBean implements Serializable {
 		};
 	}
 	
+	private void clean() {
+		
+		matricola = null;
+		username = null;
+		nome = null;
+		cognome = null;
+		tipoAccount = null;
+		password = null;
+		confirmPassword = null;
+	}
+	
 	public void doCreate() {
 
 		// Check if password matches confirmation field.
 		//
 		if(!password.equals(confirmPassword)) {
+			
+			logger.debug("Password and confirmation do not match.");
+			
 			FacesMessage message = new FacesMessage(
 					FacesMessage.SEVERITY_ERROR, 
 					"Le password differiscono", 
@@ -105,16 +122,54 @@ public class UserListBean implements Serializable {
 					nome, 
 					cognome, 
 					tipoAccount);
+			logger.debug("User successfully created.");
+			
+			// Clean up form state.
+			//
+			clean();
 			
 			// Signal to modal dialog that everything went fine.
 			//
 			RequestContext.getCurrentInstance().addCallbackParam("ok", true);
 			
 		} catch(Exception e) {
+			
+			logger.warn("Exception caught while creating user.", e);
+			
 			FacesMessage message = new FacesMessage(
 					FacesMessage.SEVERITY_ERROR, 
 					"Errore di sistema", 
 					"Si è verificato un errore in fase di creazione dell'utente");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		}
+	}
+	
+	public void doUpdate() {
+
+		// Update the user.
+		//
+		try {
+			UtenteService us = ServiceFactory.createUtenteService();
+			us.update(
+					selected.getMatricola(),
+					selected.getUsername(),
+					selected.getNome(),
+					selected.getCognome(),
+					selected.getTipoAccount());
+			logger.debug("User successfully updated.");
+
+			// Signal to modal dialog that everything went fine.
+			//
+			RequestContext.getCurrentInstance().addCallbackParam("ok", true);
+			
+		} catch(Exception e) {
+			
+			logger.warn("Exception caught while updating user.", e);
+
+			FacesMessage message = new FacesMessage(
+					FacesMessage.SEVERITY_ERROR, 
+					"Errore di sistema", 
+					"Si è verificato un errore in fase di aggiornamento dell'utente");
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 	}
@@ -124,6 +179,9 @@ public class UserListBean implements Serializable {
 		// Check if a user has been selected.
 		//
 		if(selected == null) {
+			
+			logger.warn("No user selected on deletion.");
+
 			FacesMessage message = new FacesMessage(
 					FacesMessage.SEVERITY_ERROR, 
 					"Errore di sistema", 
@@ -138,16 +196,63 @@ public class UserListBean implements Serializable {
 			
 			UtenteService us = ServiceFactory.createUtenteService();
 			us.deleteByMatricola(selected.getMatricola());
-			
+			logger.debug("User successfully deleted.");
+
 			// Signal to modal dialog that everything went fine.
 			//
 			RequestContext.getCurrentInstance().addCallbackParam("ok", true);
 
 		} catch(Exception e) {
+			
+			logger.warn("Exception caught while deleting user.", e);
+
 			FacesMessage message = new FacesMessage(
 					FacesMessage.SEVERITY_ERROR, 
 					"Errore di sistema", 
 					"Si è verificato un errore in fase di cancellazione dell'utente");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		}
+	}
+	
+	public void doChangePassword() {
+
+		// Check if password matches confirmation field.
+		//
+		if(!password.equals(confirmPassword)) {
+			
+			logger.debug("Password and confirmation do not match.");
+			
+			FacesMessage message = new FacesMessage(
+					FacesMessage.SEVERITY_ERROR, 
+					"Le password differiscono", 
+					"La password e la relativa conferma differiscono");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+			return;
+		}
+		
+		// Change the password
+		//
+		try {
+			UtenteService us = ServiceFactory.createUtenteService();
+			us.changePassword(selected.getMatricola(), password); 
+			logger.debug("Password successfully changed.");
+			
+			// Clean up form state.
+			//
+			clean();
+			
+			// Signal to modal dialog that everything went fine.
+			//
+			RequestContext.getCurrentInstance().addCallbackParam("ok", true);
+			
+		} catch(Exception e) {
+			
+			logger.warn("Exception caught while creating user.", e);
+			
+			FacesMessage message = new FacesMessage(
+					FacesMessage.SEVERITY_ERROR, 
+					"Errore di sistema", 
+					"Si è verificato un errore in fase di creazione dell'utente");
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 	}

@@ -13,7 +13,7 @@
 		<ui:define name="container">
 			<h:form>
 				<p:panel id="loginPanel"
-					header="Login panel" 
+					header="Login al sistema" 
 					toggleable="true" 
 					toggleSpeed="500"
 					style="width: 500px; margin-left: auto; margin-right: auto; margin-top: 20px;">
@@ -29,15 +29,15 @@
 					
   					<h:panelGrid columns="2">
 
-  						<h:outputText value="Username: " />  
-			            <p:inputText value="#{loginInfoBean.username}"/>
+  						<p:outputLabel for="username" value="Username: " />  
+			            <p:inputText id="username" value="#{loginInfoBean.username}"/>
   					
-  						<h:outputText value="Password: " />  
-			            <p:password	value="#{loginInfoBean.password}" /> 
+  						<h:outputText for="password" value="Password: " />  
+			            <p:password	id="password" value="#{loginInfoBean.password}" /> 
   					</h:panelGrid>
   					
   					<p:commandButton 
-  						value="Do login" 
+  						value="Accedi" 
   						action="#{loginInfoBean.doLogin}" 
   						style="margin-left:150px; margin-top:20px;"/>  
             

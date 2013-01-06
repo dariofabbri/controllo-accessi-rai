@@ -1,12 +1,14 @@
 .ui-widget,
-.ui-widget .ui-widget
-{
+.ui-widget .ui-widget {
     font-size: 90% !important;
 }
 
-.ui-datatable th
-{
+.ui-datatable th {
 	vertical-align: top;
+}
+
+.ui-menu .ui-menuitem-text {
+	font-size: 1.2em !important;
 }
 
 .title {

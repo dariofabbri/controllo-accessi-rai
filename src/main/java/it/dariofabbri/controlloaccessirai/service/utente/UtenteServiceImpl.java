@@ -36,7 +36,10 @@ public class UtenteServiceImpl extends AbstractService implements UtenteService 
 		q.setOffset(offset);
 		q.setLimit(limit);
 		
-		return q.query();
+		QueryResult<Utente> result = q.query();
+		logger.debug("Query returned: " + result);
+		
+		return result;
 	}
 
 	@Override
@@ -70,7 +73,10 @@ public class UtenteServiceImpl extends AbstractService implements UtenteService 
 		q.setSortCriteria(sortCriteria);
 		q.setSortDirection(sortDirection);
 		
-		return q.query();
+		QueryResult<Utente> result = q.query();
+		logger.debug("Query returned: " + result);
+		
+		return result;
 	}
 	
 	@Override
@@ -107,6 +113,7 @@ public class UtenteServiceImpl extends AbstractService implements UtenteService 
 		}
 		
 		session.delete(utente);
+		logger.debug("Utente successfully deleted.");
 	}
 
 	@Override
@@ -134,6 +141,7 @@ public class UtenteServiceImpl extends AbstractService implements UtenteService 
 		utente.setIterations(HASH_ITERATIONS);
 		
 		session.save(utente);
+		logger.debug("Utente successfully created.");
 		
 		return utente;
 	}
@@ -142,7 +150,6 @@ public class UtenteServiceImpl extends AbstractService implements UtenteService 
 	public Utente update(
 			Integer matricola, 
 			String username,
-			String password,
 			String nome, 
 			String cognome, 
 			String tipoAccount) {
@@ -159,16 +166,31 @@ public class UtenteServiceImpl extends AbstractService implements UtenteService 
 		utente.setCognome(cognome);
 		utente.setTipoAccount(tipoAccount);
 		
-		if(password != null && password.trim().length() > 0) {
-			String salt = generateSalt();
-			String digest = generateDigest(password, salt, HASH_ITERATIONS);
+		session.update(utente);
+		logger.debug("Utente successfully updated.");
+		
+		return utente;
+	}
 	
-			utente.setDigest(digest);
-			utente.setSalt(salt);
-			utente.setIterations(HASH_ITERATIONS);
+	@Override
+	public Utente changePassword(Integer matricola, String password) {
+
+		Utente utente = retrieveByMatricola(matricola);
+		if(utente == null) {
+			String message = String.format("It has not been possible to retrieve specified user: %d", matricola);
+			logger.info(message);
+			throw new NotFoundException(message);
 		}
 		
+		String salt = generateSalt();
+		String digest = generateDigest(password, salt, HASH_ITERATIONS);
+
+		utente.setDigest(digest);
+		utente.setSalt(salt);
+		utente.setIterations(HASH_ITERATIONS);
+		
 		session.update(utente);
+		logger.debug("Password successfully changed.");
 		
 		return utente;
 	}
