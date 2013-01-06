@@ -24,8 +24,8 @@ public class MatricolaValidator implements Validator {
 		//
 		if(!ValidationUtil.isInteger(s)) {
 			FacesMessage message = new FacesMessage();
-			message.setDetail("Matricola non valida");
-			message.setSummary("La matricola inserita non rappresenta un numero valido");
+			message.setSummary("Matricola non valida");
+			message.setDetail("La matricola inserita non rappresenta un numero valido");
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}

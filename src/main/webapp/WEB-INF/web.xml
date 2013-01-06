@@ -8,7 +8,11 @@
 		<param-name>javax.faces.PROJECT_STAGE</param-name>
 		<param-value>Development</param-value>
 	</context-param>
-	
+	<context-param>
+	    <param-name>javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
+	    <param-value>true</param-value>
+	</context-param>
+
 	<welcome-file-list>
 		<welcome-file>index.xhtml</welcome-file>
 	</welcome-file-list>
@@ -41,7 +45,7 @@
 	</filter-mapping>
 	
 	<session-config>
-		<session-timeout>1</session-timeout>
+		<session-timeout>5</session-timeout>
 	</session-config>
 	
 </web-app>

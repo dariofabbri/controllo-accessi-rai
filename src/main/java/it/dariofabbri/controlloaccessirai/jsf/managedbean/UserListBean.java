@@ -9,11 +9,10 @@ import it.dariofabbri.controlloaccessirai.service.utente.UtenteService;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.context.RequestContext;
@@ -23,7 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class UserListBean implements Serializable {
 
 	private static final Logger logger = LoggerFactory.getLogger(UserListBean.class);
@@ -82,22 +81,48 @@ public class UserListBean implements Serializable {
 		};
 	}
 	
-	public void doCreate() {
+	public String doCreate() {
 		
 		logger.debug("Inside create event action listener!");
 
-		if((new Random()).nextInt(2) == 0) {
-			RequestContext.getCurrentInstance().addCallbackParam("ok", true);
-			return;
+		// Check if password matches confirmation field.
+		//
+		if(!password.equals(confirmPassword)) {
+			FacesMessage message = new FacesMessage(
+					FacesMessage.SEVERITY_ERROR, 
+					"Le password differiscono", 
+					"La password e la relativa conferma differiscono");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+			return null;
 		}
 		
-		FacesMessage message = new FacesMessage(
-				FacesMessage.SEVERITY_ERROR, 
-				"Antani", 
-				"Antani sbiricuda");
+		// Create the new user.
+		//
+		try {
+			UtenteService us = ServiceFactory.createUtenteService();
+			us.create(
+					Integer.decode(matricola), 
+					username, 
+					password, 
+					nome, 
+					cognome, 
+					tipoAccount);
+			
+			// Signal to modal dialog that everything went fine.
+			///
+			RequestContext.getCurrentInstance().addCallbackParam("ok", true);
+			
+			return "/private/utenti/list";
+			
+		} catch(Exception e) {
+			FacesMessage message = new FacesMessage(
+					FacesMessage.SEVERITY_ERROR, 
+					"Errore di sistema", 
+					"Si è verificato un errore in fase di creazione dell'utente");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		}
 		
-		FacesContext.getCurrentInstance().addMessage(null, message);
-		FacesContext.getCurrentInstance().addMessage("matricola", message);
+		return null;
 	}
 
 	public LazyDataModel<Utente> getModel() {

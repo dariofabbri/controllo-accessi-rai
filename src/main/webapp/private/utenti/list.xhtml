@@ -12,8 +12,9 @@
 
 			<p:dataTable var="utente" value="#{userListBean.model}"
 				paginator="true" paginatorPosition="bottom" rows="10"
-				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-				rowsPerPageTemplate="5,10,50" selectionMode="single"
+				paginatorTemplate="{RowsPerPageDropdown} {CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+				rowsPerPageTemplate="5,10,50" pageLinks="10" 
+				selectionMode="single"
 				selection="#{userListBean.selected}" id="utentiTable" lazy="true">
 
 				<f:facet name="header">  
@@ -46,10 +47,14 @@
 				</p:column>
 
 			</p:dataTable>
+			
+			<p:outputPanel style="display: block; margin-top: 2em;">
 
-			<p:commandButton id="nuovoUtenteButton" value="Nuovo utente"
-				onclick="newDialog.show();"
-				icon="ui-icon-star" />
+				<p:commandButton id="nuovoUtenteButton" value="Nuovo utente"
+					onclick="newDialog.show();"
+					icon="ui-icon-star" />
+
+			</p:outputPanel>
 
 		</h:form>
 
@@ -62,18 +67,67 @@
 				<p:messages globalOnly="true" autoUpdate="true" showDetail="true"/>
 			
 				<h:panelGrid columns="3" cellpadding="5" id="wrapper">
-				
+
 					<h:outputLabel for="matricola" value="Matricola:" />
 					<p:inputText value="#{userListBean.matricola}" id="matricola"
-						validator="matricolaValidator" label="matricola" 
+						validator="matricolaValidator" 
 						required="true" requiredMessage="Il campo è obbligatorio"/>
 					<p:message for="matricola" showSummary="true" showDetail="false"/>
 
+					<h:outputLabel for="username" value="Username:" />
+					<p:inputText value="#{userListBean.username}" id="username"
+						required="true" requiredMessage="Il campo è obbligatorio"/>
+					<p:message for="username" showSummary="true" showDetail="false"/>
+
+					<h:outputLabel for="password" value="Password:" />
+					<p:password value="#{userListBean.password}" id="password"
+						required="true" requiredMessage="Il campo è obbligatorio"
+						feedback="true" inline="false"
+						redisplay="true"
+						promptLabel="Immettere la password"
+						weakLabel="Password debole" 
+						goodLabel="Password accettabile" 
+						strongLabel="Password forte" />
+					<p:message for="password" showSummary="true" showDetail="false"/>
+
+					<h:outputLabel for="confirmPassword" value="Conferma password:" />
+					<p:password value="#{userListBean.confirmPassword}" id="confirmPassword"
+						required="true" requiredMessage="Il campo è obbligatorio"
+						feedback="true" inline="false"
+						redisplay="true"
+						promptLabel="Immettere la password"
+						weakLabel="Password debole" 
+						goodLabel="Password accettabile" 
+						strongLabel="Password forte" />
+					<p:message for="password" showSummary="true" showDetail="false"/>
+
+					<h:outputLabel for="nome" value="Nome:" />
+					<p:inputText value="#{userListBean.nome}" id="nome"
+						required="true" requiredMessage="Il campo è obbligatorio"/>
+					<p:message for="nome" showSummary="true" showDetail="false"/>
+
+					<h:outputLabel for="cognome" value="Cognome:" />
+					<p:inputText value="#{userListBean.cognome}" id="cognome"
+						required="true" requiredMessage="Il campo è obbligatorio"/>
+					<p:message for="cognome" showSummary="true" showDetail="false"/>
+
+					<h:outputLabel for="tipoAccount" value="Tipo account:" />
+					<p:selectOneMenu value="#{userListBean.tipoAccount}" id="tipoAccount"
+						required="true" requiredMessage="Il campo è obbligatorio">
+			            <f:selectItem itemLabel="Selezionare un tipo" itemValue="" />  
+			            <f:selectItem itemLabel="Utente" itemValue="Utente" />  
+			            <f:selectItem itemLabel="Capoturno" itemValue="Capoturno" />  
+			            <f:selectItem itemLabel="Amministratore" itemValue="Amministratore" />  
+			        </p:selectOneMenu>  
+					<p:message for="tipoAccount" showSummary="true" showDetail="false"/>
+
+
 					<f:facet name="footer">
 						<p:commandButton value="Crea"
-							actionListener="#{userListBean.doCreate}" update="wrapper" 
-							oncomplete="if(args.ok) {newDialog.hide()}"/> 
-
+							actionListener="#{userListBean.doCreate}" 
+							update="wrapper" 
+							oncomplete="if(args.ok) {window.location.reload()}"/>
+ 
 						<p:commandButton value="Annulla"
 							oncomplete="newDialog.hide();" />
 					</f:facet>
