@@ -81,9 +81,7 @@ public class UserListBean implements Serializable {
 		};
 	}
 	
-	public String doCreate() {
-		
-		logger.debug("Inside create event action listener!");
+	public void doCreate() {
 
 		// Check if password matches confirmation field.
 		//
@@ -93,7 +91,7 @@ public class UserListBean implements Serializable {
 					"Le password differiscono", 
 					"La password e la relativa conferma differiscono");
 			FacesContext.getCurrentInstance().addMessage(null, message);
-			return null;
+			return;
 		}
 		
 		// Create the new user.
@@ -109,10 +107,8 @@ public class UserListBean implements Serializable {
 					tipoAccount);
 			
 			// Signal to modal dialog that everything went fine.
-			///
+			//
 			RequestContext.getCurrentInstance().addCallbackParam("ok", true);
-			
-			return "/private/utenti/list";
 			
 		} catch(Exception e) {
 			FacesMessage message = new FacesMessage(
@@ -121,8 +117,39 @@ public class UserListBean implements Serializable {
 					"Si è verificato un errore in fase di creazione dell'utente");
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
+	}
+	
+	public void doDelete() {
+
+		// Check if a user has been selected.
+		//
+		if(selected == null) {
+			FacesMessage message = new FacesMessage(
+					FacesMessage.SEVERITY_ERROR, 
+					"Errore di sistema", 
+					"Nessun utente selezionato.");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+			return;
+		}
 		
-		return null;
+		// Delete the selected user.
+		//
+		try {
+			
+			UtenteService us = ServiceFactory.createUtenteService();
+			us.deleteByMatricola(selected.getMatricola());
+			
+			// Signal to modal dialog that everything went fine.
+			//
+			RequestContext.getCurrentInstance().addCallbackParam("ok", true);
+
+		} catch(Exception e) {
+			FacesMessage message = new FacesMessage(
+					FacesMessage.SEVERITY_ERROR, 
+					"Errore di sistema", 
+					"Si è verificato un errore in fase di cancellazione dell'utente");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		}
 	}
 
 	public LazyDataModel<Utente> getModel() {

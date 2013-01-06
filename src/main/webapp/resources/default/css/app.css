@@ -3,3 +3,8 @@
 {
     font-size: 90% !important;
 }
+
+.ui-datatable th
+{
+	vertical-align: top;
+}

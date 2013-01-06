@@ -9,20 +9,50 @@
 	<ui:define name="container">
 
 		<h:form id="form">
+			
+			<p:outputPanel id="buttons" style="display: block; margin-top: 2em; margin-bottom: 2em;">
 
-			<p:dataTable var="utente" value="#{userListBean.model}"
-				paginator="true" paginatorPosition="bottom" rows="10"
-				paginatorTemplate="{RowsPerPageDropdown} {CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-				rowsPerPageTemplate="5,10,50" pageLinks="10" 
+				<p:commandButton id="createUtenteButton" 
+					value="Nuovo utente"
+					onclick="createDialog.show();"
+					icon="ui-icon-star" />
+
+				<p:commandButton id="deleteUtenteButton" 
+					value="Elimina utente selezionato"
+					disabled="#{userListBean.selected == null}"
+					onclick="deleteDialog.show();"
+					icon="ui-icon-trash" />
+
+				<p:commandButton id="updateUtenteButton" 
+					value="Modifica utente selezionato"
+					disabled="#{userListBean.selected == null}"
+					onclick="updateDialog.show();"
+					icon="ui-icon-pencil" />
+
+			</p:outputPanel>
+
+			<p:dataTable var="utente" 
+				value="#{userListBean.model}"
+				paginator="true" 
+				paginatorPosition="bottom" rows="10"
+				paginatorTemplate="{CurrentPageReport} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+				currentPageReportTemplate="Trovati {totalRecords} record - Pagina {currentPage} di {totalPages}"
+				rowsPerPageTemplate="5,10,50" 
+				pageLinks="10"
+				emptyMessage="Nessun record trovato" 
 				selectionMode="single"
 				selection="#{userListBean.selected}" id="utentiTable" lazy="true">
 
+				<p:ajax event="rowSelect" update=":form:buttons"/>
+        		
 				<f:facet name="header">  
 			    	Lista degli utenti  
 			    </f:facet>
 
-				<p:column headerText="Matricola" sortBy="#{utente.matricola}"
+				<p:column headerText="Matricola" sortBy="#{utente.matricola}">
+				<!--
 					filterBy="#{utente.matricola}">
+				-->
 					<h:outputText value="#{utente.matricola}" />
 				</p:column>
 
@@ -47,20 +77,49 @@
 				</p:column>
 
 			</p:dataTable>
-			
-			<p:outputPanel style="display: block; margin-top: 2em;">
-
-				<p:commandButton id="nuovoUtenteButton" value="Nuovo utente"
-					onclick="newDialog.show();"
-					icon="ui-icon-star" />
-
-			</p:outputPanel>
 
 		</h:form>
+		
+		
+		
+		<p:dialog 
+			header="Eliminazione utente" 
+			widgetVar="deleteDialog" 
+			modal="true"
+			showEffect="fade" 
+			hideEffect="fade"> 
 
+			<h:form>
+			
+				<p:messages globalOnly="true" autoUpdate="true" showDetail="true"/>
 
-		<p:dialog id="dialog" header="Nuovo utente" widgetVar="newDialog" modal="true"
-			showEffect="slide" hideEffect="slide"> 
+				<h:panelGrid columns="1" cellpadding="5" id="wrapper">
+			
+					<h:outputText value="Si conferma l'eliminazione dell'utente selezionato?"/>
+					
+					<f:facet name="footer">
+						<p:commandButton value="Elimina"
+							actionListener="#{userListBean.doDelete}" 
+							oncomplete="if(args.ok) { window.location.reload(); }"/>
+		
+						<p:commandButton value="Annulla"
+							oncomplete="deleteDialog.hide();" />
+					</f:facet>
+				
+				</h:panelGrid>
+
+			</h:form>
+			
+		</p:dialog>
+		
+		
+		
+		<p:dialog 
+			header="Nuovo utente" 
+			widgetVar="createDialog" 
+			modal="true"
+			showEffect="fade" 
+			hideEffect="fade"> 
 
 			<h:form>
 			
@@ -129,7 +188,7 @@
 							oncomplete="if(args.ok) {window.location.reload()}"/>
  
 						<p:commandButton value="Annulla"
-							oncomplete="newDialog.hide();" />
+							oncomplete="createDialog.hide();" />
 					</f:facet>
 					
 				</h:panelGrid>
