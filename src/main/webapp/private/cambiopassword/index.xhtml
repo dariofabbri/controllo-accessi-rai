@@ -1,0 +1,93 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="/templates/main.xhtml">
+		
+		<ui:define name="container">
+		
+			<p:panel 
+				id="changePasswordPanel"
+				header="Cambio password" 
+				toggleable="true" 
+				toggleSpeed="500"
+				style="width: 700px; margin-left: auto; margin-right: auto; margin-top: 20px;">
+						
+				<h:form id="changePasswordForm">
+				
+					<p:focus context="changePasswordForm"/>
+					
+					<p:messages globalOnly="true" autoUpdate="true" showDetail="true"/>
+						
+					<h:panelGrid columns="4" cellpadding="5" id="wrapper">
+						
+						<p:outputLabel for="password" value="Nuova password:" />
+						<p:password value="#{changePassword.password}" id="password"
+							required="true" requiredMessage="Il campo è obbligatorio"
+							feedback="true" inline="false"
+							promptLabel="Immettere la password"
+							weakLabel="Password debole" 
+							goodLabel="Password accettabile" 
+							strongLabel="Password forte"
+							style="width: 250px;" />
+						<p:watermark for="password" value="Immettere la password" />
+						<p:message for="password" showSummary="true" showDetail="false"/>
+		
+						<p:outputLabel for="confirmPassword" value="Conferma password:" />
+						<p:password value="#{changePassword.confirmPassword}" id="confirmPassword"
+							required="true" requiredMessage="Il campo è obbligatorio"
+							feedback="true" inline="false"
+							promptLabel="Immettere la password"
+							weakLabel="Password debole" 
+							goodLabel="Password accettabile" 
+							strongLabel="Password forte"
+							style="width: 250px;" />
+						<p:watermark for="confirmPassword" value="Confermare la password" />
+						<p:message for="confirmPassword" showSummary="true" showDetail="false"/>
+		
+		
+						<f:facet name="footer">
+							<p:commandButton value="Cambia"
+								actionListener="#{changePassword.doChangePassword}" 
+								update="wrapper" 
+								oncomplete="if(args.ok) {confirmDialog.show()}"/>
+		
+							<p:button value="Annulla" href="/" />
+						</f:facet>
+						
+					</h:panelGrid>
+					
+				</h:form>
+		
+			</p:panel>
+					    
+		    <p:draggable 
+		    	for="changePasswordPanel" 
+		    	handle=".ui-panel-titlebar"
+		    	opacity="0.3"/>
+	
+			<p:dialog 
+				header="Cambio password" 
+				widgetVar="confirmDialog" 
+				modal="true"
+				closable="false"
+				showEffect="fade" 
+				hideEffect="fade">
+
+				<h:panelGrid columns="1">
+					<h:outputText value="La password è stata modificata con successo." />
+				
+					<f:facet name="footer">
+						<p:button value="Continua" href="/" />
+					</f:facet>
+				</h:panelGrid>
+				
+			</p:dialog>
+	
+		</ui:define>
+		
+	</ui:composition>
+
+</html>
